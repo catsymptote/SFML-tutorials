@@ -5,11 +5,17 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1024, 1024), "SFML Tutorial", sf::Style::Close | sf::Style::Resize);
 
-	sf::RectangleShape player(sf::Vector2f(100.0f, 100.0f));	/// Make a rectangle called "player".
+	sf::RectangleShape player(sf::Vector2f(148.0f, 174.0f));	/// Make a rectangle called "player".
 	player.setPosition(206.0f, 206.0f);
 	sf::Texture playerTexture;
-	playerTexture.loadFromFile("texture/linux_logo.png");
+	playerTexture.loadFromFile("texture/walk_texture_2.png");
 	player.setTexture(&playerTexture);
+
+	sf::Vector2u textureSize = playerTexture.getSize();
+	textureSize.x /= 7;
+	textureSize.y /= 4;
+
+	player.setTextureRect(sf::IntRect(textureSize.x * 6, textureSize.y * 2, textureSize.x, textureSize.y));
 
 
 	/// Game loop.

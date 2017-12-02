@@ -320,3 +320,5 @@ ASALocalRun/
 sfml/
 Debug/
 _codeExamples/
+*.jpg
+*.png

@@ -313,3 +313,10 @@ OpenCover/
 
 # Azure Stream Analytics local run output 
 ASALocalRun/
+
+
+
+## Others
+sfml/
+Debug/
+_codeExamples/

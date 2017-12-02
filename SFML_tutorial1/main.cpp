@@ -1,5 +1,5 @@
 #include <sfml\Graphics.hpp>
-#include "Animation.h"
+#include "Player.h"
 //#include <iostream>
 
 
@@ -7,15 +7,14 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1024, 1024), "SFML Tutorial", sf::Style::Close | sf::Style::Resize);
 
-	sf::RectangleShape player(sf::Vector2f(148.0f, 174.0f));	/// Make a rectangle called "player".
-	player.setPosition(206.0f, 206.0f);
+	/// Change sprite image: Change playerTexture file directory and w, h.
 	sf::Texture playerTexture;
-	playerTexture.loadFromFile("texture/walk_texture_2.png");
-	player.setTexture(&playerTexture);
-	/// Change sprite image: Change playerTexture file directory and the size in imgCount(w, h).
-	sf::Vector2u imgCount(7, 4);
+	playerTexture.loadFromFile("texture/movement2.png");
+	
+	int w = 12, h = 4;
+	sf::Vector2u imgCount(w, h);
 
-	Animation animation(&playerTexture, imgCount, 1.0f/(float(imgCount.x) * float(imgCount.y)));
+	Player player(&playerTexture, imgCount, 1.0f/(float(w)), 100.0f);
 
 	float deltaTime = 0.0f;
 	sf::Clock clock;
@@ -39,11 +38,10 @@ int main()
 			}
 		}
 
-		animation.Update(0, deltaTime);
-		player.setTextureRect(animation.uvRect);
+		player.Update(deltaTime);
 
 		window.clear(sf::Color(150, 150, 150));
-		window.draw(player);
+		player.Draw(window);
 		window.display();
 	}
 

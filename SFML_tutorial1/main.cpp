@@ -1,16 +1,20 @@
 #include <sfml\Graphics.hpp>
+#include <iostream>
+#include <vector>
 #include "Player.h"
 #include "Platform.h"
-//#include <iostream>
+
 
 
 static const float VIEW_HEIGHT = 512.0f;
+
 
 void ResizeView(const sf::RenderWindow& window, sf::View& view)
 {
 	float aspectRatio = float(window.getSize().x) / float(window.getSize().y);
 	view.setSize(VIEW_HEIGHT * aspectRatio, VIEW_HEIGHT);
 }
+
 
 int main()
 {
@@ -24,10 +28,16 @@ int main()
 	int w=9, h=8;
 	sf::Vector2u imgCount(w, h);
 
-	Player player(&playerTexture, imgCount, 1.0f/(float(w)), 100.0f);
+	Player player(&playerTexture, imgCount, 1.0f/(float(w)), 100.0f, 200.0f);
 
-	Platform platform1(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 200.0f));
-	Platform platform2(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 0.0f));
+	std::vector<Platform> platforms;
+
+	platforms.push_back(Platform(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 200.0f)));
+	platforms.push_back(Platform(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 0.0f)));
+	platforms.push_back(Platform(nullptr, sf::Vector2f(1000.0f, 200.0f), sf::Vector2f(500.0f, 500.0f)));
+	//Platform platform1(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 200.0f));
+	//Platform platform2(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 0.0f));
+	//Platform platform3(nullptr, sf::Vector2f(1000.0f, 200.0f), sf::Vector2f(500.0f, 500.0f));
 
 
 	float deltaTime = 0.0f;
@@ -38,6 +48,8 @@ int main()
 	{
 		/// Reset texture clock.
 		deltaTime = clock.restart().asSeconds();
+		if (deltaTime > 1.0f / 20.0f)	/// Do this to force a minimum amount of fps (to fix the problem of the player falling through the floor when moving window).
+			deltaTime = 1.0f / 20.0f;
 
 		/// Create event and event loop.
 		sf::Event evnt;
@@ -57,16 +69,26 @@ int main()
 
 		player.Update(deltaTime);
 
-		platform1.GetCollider().CheckCollision(player.GetCollider(), 0.2f);
-		platform2.GetCollider().CheckCollision(player.GetCollider(), 1.0f);
+		sf::Vector2f direction;
+
+		///	These two for loops are essentially the same (except for the internal functionality in the second loop.
+		//	for(int i = 0; i < platforms.size(); i++
+		//	{
+		//		Platform& platform = platforms[i];
+		//	}
+
+		for (Platform& platform : platforms)
+			if (platform.GetCollider().CheckCollision(player.GetCollider(), direction, 1.0f))
+				player.OnCollision(direction);
 
 		view.setCenter(player.GetPosition());
 
 		window.clear(sf::Color(150, 150, 150));
 		window.setView(view);
 		player.Draw(window);
-		platform1.Draw(window);
-		platform2.Draw(window);
+		
+		for (Platform& platform : platforms)
+			platform.Draw(window);
 
 		window.display();
 	}

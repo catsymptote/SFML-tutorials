@@ -1,7 +1,6 @@
 #include "Player.h"
 
 
-
 Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed) :
 	animation(texture, imageCount, switchTime)	/// Run Animation animation constructor in parameter list like this.
 {
@@ -10,6 +9,7 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, 
 	faceRight = true;
 
 	body.setSize(sf::Vector2f(148.0f, 174.0f));	/// Make a rectangle called "player".
+	body.setOrigin(body.getSize() / 2.0f);
 	body.setPosition(206.0f, 206.0f);
 	body.setTexture(texture);
 }
@@ -18,6 +18,7 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, 
 Player::~Player()
 {
 }
+
 
 void Player::Update(float deltaTime)
 {
@@ -36,13 +37,13 @@ void Player::Update(float deltaTime)
 	/// Idle animation and movement animation.
 	if (movement.x == 0.0f && movement.y == 0.0f)
 	{
-		row = 0;	/// Idle
+		row = 1;	/// Idle
 	}
 	else
 	{
 		if (movement.y == 0.0f)
 		{
-			row = 2;	/// Move left/right
+			row = 6;	/// Move left/right
 
 			if (movement.x > 0.0f)
 				faceRight = true;
@@ -55,11 +56,10 @@ void Player::Update(float deltaTime)
 			if (movement.y > 0.0f)
 				row = 0;	/// Move down
 			else
-				row = 3;	/// Move up
+				row = 4;	/// Move up
 		}
 	}
 	
-
 	animation.Update(row, deltaTime, faceRight);
 	body.setTextureRect(animation.uvRect);
 	body.move(movement);

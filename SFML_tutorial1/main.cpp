@@ -1,5 +1,7 @@
 #include <sfml\Graphics.hpp>
+#include "Animation.h"
 //#include <iostream>
+
 
 int main()
 {
@@ -10,17 +12,20 @@ int main()
 	sf::Texture playerTexture;
 	playerTexture.loadFromFile("texture/walk_texture_2.png");
 	player.setTexture(&playerTexture);
+	/// Change sprite image: Change playerTexture file directory and the size in imgCount(w, h).
+	sf::Vector2u imgCount(7, 4);
 
-	sf::Vector2u textureSize = playerTexture.getSize();
-	textureSize.x /= 7;
-	textureSize.y /= 4;
+	Animation animation(&playerTexture, imgCount, 1.0f/(float(imgCount.x) * float(imgCount.y)));
 
-	player.setTextureRect(sf::IntRect(textureSize.x * 6, textureSize.y * 2, textureSize.x, textureSize.y));
-
+	float deltaTime = 0.0f;
+	sf::Clock clock;
 
 	/// Game loop.
 	while (window.isOpen())
 	{
+		/// Reset texture clock.
+		deltaTime = clock.restart().asSeconds();
+
 		/// Create event and event loop.
 		sf::Event evnt;
 		while (window.pollEvent(evnt))
@@ -34,7 +39,10 @@ int main()
 			}
 		}
 
-		window.clear();
+		animation.Update(0, deltaTime);
+		player.setTextureRect(animation.uvRect);
+
+		window.clear(sf::Color(150, 150, 150));
 		window.draw(player);
 		window.display();
 	}

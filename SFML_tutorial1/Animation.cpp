@@ -21,7 +21,6 @@ Animation::~Animation()
 
 void Animation::Update(int row, float deltaTime, bool faceRight)
 {
-	/// When using single row animations.
 	currentImage.y = row;
 
 	totalTime += deltaTime;
@@ -31,27 +30,9 @@ void Animation::Update(int row, float deltaTime, bool faceRight)
 		totalTime -= switchTime;
 		currentImage.x++;
 
-		/// When using multirow sprites.
-		/*
-		if(currentImage.x == imageCount.x && currentImage.y == imageCount.y)
-		{
-			currentImage.x = 0;
-			currentImage.y = 0;
-		}
-		*/
-
 		if (currentImage.x >= imageCount.x)
 		{
 			currentImage.x = 0;
-
-			/// When using multirow sprites.
-			/*
-			currentImage.y++;
-			if (currentImage.y >= imageCount.y -1)
-			{
-				currentImage.y = 0;
-			}
-			*/
 		}
 	}
 	uvRect.top = currentImage.y * uvRect.height;

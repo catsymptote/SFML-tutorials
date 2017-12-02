@@ -20,4 +20,3 @@ private:
 	float totalTime;	/// Total animation time.
 	float switchTime;	/// Time per image.
 };
-

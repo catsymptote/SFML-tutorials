@@ -18,4 +18,3 @@ private:
 	float speed;
 	bool faceRight;
 };
-

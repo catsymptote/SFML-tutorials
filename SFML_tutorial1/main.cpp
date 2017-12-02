@@ -9,9 +9,9 @@ int main()
 
 	/// Change sprite image: Change playerTexture file directory and w, h.
 	sf::Texture playerTexture;
-	playerTexture.loadFromFile("texture/movement2.png");
+	playerTexture.loadFromFile("texture/movement1.png");
 	
-	int w = 12, h = 4;
+	int w=8, h=4;
 	sf::Vector2u imgCount(w, h);
 
 	Player player(&playerTexture, imgCount, 1.0f/(float(w)), 100.0f);

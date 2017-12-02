@@ -36,13 +36,13 @@ void Player::Update(float deltaTime)
 	/// Idle animation and movement animation.
 	if (movement.x == 0.0f && movement.y == 0.0f)
 	{
-		row = 0;
+		row = 0;	/// Idle
 	}
 	else
 	{
 		if (movement.y == 0.0f)
 		{
-			row = 2;
+			row = 2;	/// Move left/right
 
 			if (movement.x > 0.0f)
 				faceRight = true;
@@ -53,11 +53,10 @@ void Player::Update(float deltaTime)
 		{
 			faceRight = true;
 			if (movement.y > 0.0f)
-				row = 0;
+				row = 0;	/// Move down
 			else
-				row = 3;
+				row = 3;	/// Move up
 		}
-		
 	}
 	
 

@@ -5,7 +5,6 @@
 #include "Platform.h"
 
 
-
 static const float VIEW_HEIGHT = 512.0f;
 
 
